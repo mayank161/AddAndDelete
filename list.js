@@ -26,9 +26,13 @@ function addItem(e) {
     // append text inside button
     delButton.appendChild(document.createTextNode('X'));
     
+    // add button create
+    var addButton = document.createElement('button');
+    addButton.className = 'add';
+    addButton.appendChild(document.createTextNode('add'));
     // now we have to append delete button inside the li tag
     li.appendChild(delButton);
-
+    li.appendChild(addButton);
     // append li to the list to show in screen
     listItems.appendChild(li);
 }
@@ -44,5 +48,11 @@ function removeItem(e) {
             var li = e.target.parentElement; // parentElement of X button is the li tag
             listItems.removeChild(li); // actually removing the parent of X button
         }
+    }
+    else if(e.target.classList.contains('add')) {
+        var li = e.target.parentElement;
+        var text = document.getElementById('item');
+        text.value = li.textContent;
+        listItems.removeChild(li);
     }
 }
