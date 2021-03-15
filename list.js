@@ -6,6 +6,12 @@ form.addEventListener('submit',addItem);
 // now for delete element by X button after adding values
 listItems.addEventListener('click',removeItem); // it hears the click inside items(id)
 
+// to get the search values
+var search = document.getElementById('filter');
+// now adding event Listener to search
+search.addEventListener('keyup',filterItems); // keyup is used to run function at every time key pressed
+
+// add items
 function addItem(e) {
     e.preventDefault(); // prevent from erasing in console
     
@@ -52,7 +58,24 @@ function removeItem(e) {
     else if(e.target.classList.contains('add')) {
         var li = e.target.parentElement;
         var text = document.getElementById('item');
-        text.value = li.textContent;
+        text.value = li.firstChild.textContent; // since li contain more then one tags and their text content but we want firstChild text only.
         listItems.removeChild(li);
     }
+}
+
+
+// creating search filter
+function filterItems(e) {
+    var text = e.target.value.toLowerCase(); // text update every time keyup
+    //console.log(text);
+    var items = listItems.getElementsByTagName('li'); // here we get all li in forms of collection
+    // we need to convert collection into array to loop through it
+    Array.from(items).forEach(function(item){ 
+        var itemName = item.firstChild.textContent;
+        //console.log(itemName);
+        if(itemName.toLowerCase().indexOf(text) != -1) { // index start form 0 (-1 for non existence)
+            item.style.display = 'block';
+        }
+        else { item.style.display = 'none'; }
+    }); 
 }
