@@ -36,9 +36,20 @@ function addItem(e) {
     var addButton = document.createElement('button');
     addButton.className = 'add';
     addButton.appendChild(document.createTextNode('add'));
-    // now we have to append delete button inside the li tag
+    
+    // add description
+    var addDes = document.getElementById('description').value;
+    //console.log(addDes);
+    if(addDes == '') { addDes = 'no Description given'}
+    var li2 = document.createElement('li');
+    //li2.appendChild(addDes);
+    li2.appendChild(document.createTextNode(addDes));
+
+    // now we have to append add,delete button inside the li tag and li too.
     li.appendChild(delButton);
     li.appendChild(addButton);
+    li.appendChild(li2)
+    //li.appendChild(document.createElement('br'));
     // append li to the list to show in screen
     listItems.appendChild(li);
 }
@@ -58,7 +69,9 @@ function removeItem(e) {
     else if(e.target.classList.contains('add')) {
         var li = e.target.parentElement;
         var text = document.getElementById('item');
+        var description = document.getElementById('description');
         text.value = li.firstChild.textContent; // since li contain more then one tags and their text content but we want firstChild text only.
+        description.value = li.lastChild.textContent;
         listItems.removeChild(li);
     }
 }
@@ -72,8 +85,9 @@ function filterItems(e) {
     // we need to convert collection into array to loop through it
     Array.from(items).forEach(function(item){ 
         var itemName = item.firstChild.textContent;
+        var description = item.lastChild.textContent;
         //console.log(itemName);
-        if(itemName.toLowerCase().indexOf(text) != -1) { // index start form 0 (-1 for non existence)
+        if(itemName.toLowerCase().indexOf(text) != -1 || description.toLowerCase().indexOf(text) != -1) { // index start form 0 (-1 for non existence)
             item.style.display = 'block';
         }
         else { item.style.display = 'none'; }
